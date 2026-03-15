@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Bloom 🌸</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="theme-color" content="#9b6fd4"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Bloom"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Nunito:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div id="petals"></div>
+<div id="wipe" class="wipe"></div>
+<button class="crisis-btn" onclick="triggerCrisis()">🆘</button>
+
+<!-- LOADING -->
+<div id="loading" class="loading">
+  <div class="ls-wrap">
+    <div class="ls-flower">
+      <div class="ls-r r1"></div><div class="ls-r r2"></div><div class="ls-r r3"></div>
+      <span class="ls-core">🌸</span>
+    </div>
+    <h1 class="ls-logo">bloom</h1>
+    <p class="ls-tag">you bloom with dignity</p>
+    <div class="ls-bar"><div class="ls-fill"></div></div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div id="s-auth" class="screen">
+  <div class="auth-wrap">
+    <div class="blob b1"></div><div class="blob b2"></div>
+    <div class="auth-inner">
+      <div class="auth-flower">
+        <div class="af-r r1"></div><div class="af-r r2"></div><div class="af-r r3"></div>
+        <span class="af-core">🌸</span>
+      </div>
+      <h1 class="auth-logo">bloom</h1>
+      <p class="auth-tag">you bloom with dignity</p>
+      <div class="auth-card">
+        <p class="auth-desc">your space. your chaos. held softly.</p>
+        <button id="btn-google" class="g-btn">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+          Continue with Google
+        </button>
+        <p class="unravel">Bloom · Unravel Labs</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ONBOARD -->
+<div id="s-onboard" class="screen">
+  <div class="ob-wrap">
+    <div class="ob-prog"><div class="ob-prog-fill" id="ob-prog-fill" style="width:33%"></div></div>
+    <div class="ob-card">
+      <div id="ob1" class="ob-step active">
+        <span class="ob-ico">🌸</span>
+        <span class="chip">welcome to bloom</span>
+        <h2 class="ob-title">hey gorgeous,<br/>what's your name?</h2>
+        <p class="ob-hint">this is your space. I just want to know who I'm protecting 💜</p>
+        <input id="ob-name" class="b-input" type="text" placeholder="your name..." maxlength="30"/>
+        <button class="b-btn" onclick="obNext(1)">let's go →</button>
+        <p class="ob-fine">your data stays yours. always.</p>
+      </div>
+      <div id="ob2" class="ob-step">
+        <span class="ob-ico">🌙</span>
+        <span class="chip">almost there</span>
+        <h2 class="ob-title">when did your last period start?</h2>
+        <p class="ob-hint">for your Womenstrual cycle tracker. zero judgment. 🌸</p>
+        <input id="ob-cycle" class="b-input" type="date"/>
+        <button class="b-btn" onclick="obNext(2)">bloom 🌸</button>
+        <button class="ob-skip" onclick="obSkip()">skip for now</button>
+      </div>
+      <div id="ob3" class="ob-step">
+        <span class="ob-ico">💉</span>
+        <span class="chip">meet your people</span>
+        <h2 class="ob-title">your AI friends<br/>are ready for you</h2>
+        <p class="ob-hint">vent, argue, release, heal. plus Jazz and Chinatsu are here too 🌿🎸</p>
+        <div class="ob-bots">
+          <span class="ob-bot-pill">💉 Epipen</span>
+          <span class="ob-bot-pill">🌿 Chinatsu</span>
+          <span class="ob-bot-pill">🎸 Jazz</span>
+        </div>
+        <button class="b-btn" onclick="obFinish()">enter bloom 🌸</button>
+      </div>
+    </div>
+    <p class="ob-brand">Bloom · Unravel Labs</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="s-app" class="screen">
+  <div class="shell" id="shell">
+
+    <!-- SIDEBAR (desktop) -->
+    <nav class="nav" id="main-nav">
+      <div class="ni active" onclick="navTo('home',this)"><span class="ni-ico">🏠</span><span class="ni-lbl">Home</span></div>
+      <div class="ni" onclick="navTo('bots',this)"><span class="ni-ico">💬</span><span class="ni-lbl">Chats</span></div>
+      <div class="ni" onclick="navTo('diary',this)"><span class="ni-ico">🌙</span><span class="ni-lbl">Diary</span></div>
+      <div class="ni" onclick="navTo('health',this)"><span class="ni-ico">🩸</span><span class="ni-lbl">Health</span></div>
+      <div class="ni" onclick="navTo('comfort',this)"><span class="ni-ico">🌸</span><span class="ni-lbl">Comfort</span></div>
+      <div class="ni" onclick="navTo('insights',this)"><span class="ni-ico">📊</span><span class="ni-lbl">Insights</span></div>
+      <div class="ni" onclick="navTo('profile',this)"><span class="ni-ico">👤</span><span class="ni-lbl">Profile</span></div>
+    </nav>
+
+    <!-- TOPBAR (mobile) -->
+    <header class="topbar">
+      <div class="tb-brand"><span class="tb-logo">bloom</span><span class="tb-bloom">🌸</span></div>
+      <div id="av-wrap" onclick="navTo('profile',document.querySelector('.ni:last-child'))"></div>
+    </header>
+
+    <div class="pages">
+
+      <!-- HOME -->
+      <div id="pg-home" class="pg active">
+        <!-- mood gate -->
+        <div id="mood-gate" class="overlay" style="display:none">
+          <div class="gate-card">
+            <button class="gate-x" onclick="closeGate()">✕</button>
+            <p class="gate-chip">daily check-in 🌸</p>
+            <h3 class="gate-title">how are you feeling?</h3>
+            <div class="meter">
+              <div class="meter-emoji" id="m-emoji">🌸</div>
+              <input type="range" id="m-slider" class="m-slider" min="1" max="10" step="0.1" value="5" oninput="onMeter(this.value)"/>
+              <div class="meter-nums"><span>1</span><span class="meter-val"><span id="m-val">5.0</span><small>/10</small></span><span>10</span></div>
+            </div>
+            <button class="b-btn" onclick="submitMood()">done 🌸</button>
+          </div>
+        </div>
+        <div id="mood-pop" class="mood-pop" style="display:none">
+          <button class="mpop-x" onclick="this.parentElement.style.display='none'">✕</button>
+          <p id="mood-pop-txt" class="mpop-txt"></p>
+        </div>
+
+        <div class="greeting">
+          <p class="gr-time" id="gr-time">good morning</p>
+          <h2 class="gr-name">hey <span id="gr-name">bestie</span> ✦</h2>
+        </div>
+
+        <div class="streak-row">
+          <div class="streak-badge"><span>🔥</span><span class="streak-num" id="streak-num">0</span><span class="streak-lbl">day streak</span></div>
+          <div class="streak-msg" id="streak-msg">start your streak today 🌸</div>
+        </div>
+
+        <div class="affirmation-card">
+          <button class="q-refresh" onclick="fetchAffirmation()">↻</button>
+          <p class="aff-label">✨ today's affirmation</p>
+          <p class="aff-text" id="aff-text">loading something beautiful...</p>
+        </div>
+
+        <div class="chi-home-widget" onclick="navTo('health',document.querySelector('.ni:nth-child(4)'))">
+          <div class="chw-left"><span class="chw-ico">🌿</span>
+            <div><p class="chw-label">Chinatsu says</p><p class="chw-txt" id="chw-txt">loading...</p></div>
+          </div>
+          <span class="chw-arrow">›</span>
+        </div>
+
+        <div class="home-tiles">
+          <div class="tile t-mood" onclick="openGate()">
+            <div class="tile-ico" id="t-mood-ico">🌸</div>
+            <div class="tile-lbl">vibe check</div>
+            <div class="tile-sub">tap to log</div>
+          </div>
+          <div class="tile t-cycle" onclick="navTo('health',document.querySelector('.ni:nth-child(4)'))">
+            <div class="tile-ico" id="t-phase-ico">🌙</div>
+            <div class="tile-lbl" id="t-day">Day —</div>
+            <div class="tile-sub" id="t-phase">your cycle</div>
+          </div>
+        </div>
+
+        <!-- Bloom Assistant -->
+        <div class="ba-wrap">
+          <div class="ba-header" onclick="toggleBA()">
+            <div class="ba-left"><div class="ba-orb">✨</div><div><p class="ba-name">Bloom Assistant</p><p class="ba-sub">ask me anything or tell me where to go</p></div></div>
+            <span class="ba-arr" id="ba-arr">›</span>
+          </div>
+          <div id="ba-panel" style="display:none">
+            <div id="ba-msgs" class="ba-msgs"></div>
+            <div class="ba-row"><input id="ba-in" class="mc-in" placeholder="log my period, talk to Jazz, I feel low..." type="text"/><button class="mc-send" onclick="sendBA()">→</button></div>
+          </div>
+        </div>
+
+        <!-- mood weather -->
+        <p class="sec-lbl">🌡️ next few days</p>
+        <div class="weather-row" id="mood-weather"></div>
+
+        <!-- daily challenge -->
+        <div class="challenge-card">
+          <span class="cc-ico">🎯</span>
+          <div style="flex:1">
+            <p class="cc-lbl">today's challenge</p>
+            <p class="cc-txt" id="challenge-txt">loading...</p>
+            <span class="cc-done" id="challenge-done" onclick="completeChallenge()">mark done ✓</span>
+          </div>
+        </div>
+
+        <!-- playlist -->
+        <div class="playlist-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+            <span class="sec-lbl" style="margin:0">🎵 playlist for your vibe</span>
+            <button class="ref-btn" onclick="genPlaylist()">generate ↻</button>
+          </div>
+          <p style="font-size:.75rem;color:var(--text3)">based on your mood + cycle phase</p>
+          <div id="pl-out" style="display:none;margin-top:.75rem">
+            <p class="pl-query" id="pl-mood"></p>
+            <div class="pl-links" id="pl-links"></div>
+          </div>
+        </div>
+
+        <div id="compliment" class="compliment-bar" style="display:none">
+          <span id="compliment-txt"></span>
+          <button onclick="this.parentElement.style.display='none'" class="bar-x">✕</button>
+        </div>
+      </div>
+
+      <!-- BOTS -->
+      <div id="pg-bots" class="pg">
+        <div class="pg-hd"><h2 class="pg-title">your people 💬</h2><p class="pg-sub">three vibes. all here for you.</p></div>
+
+        <div class="tell-card" onclick="document.getElementById('tell-modal').style.display='flex'">
+          <span style="font-size:1.4rem">✨</span>
+          <div style="flex:1"><p class="tell-title">tell them about yourself</p><p class="tell-sub">all AIs will remember what you share</p></div>
+          <span class="chw-arrow">›</span>
+        </div>
+
+        <div class="bot-selector">
+          <div class="bot-card active" id="bc-epipen" onclick="selectBot('epipen')"><div class="bc-av" id="bc-epi-av">💉</div><div class="bc-name" id="bc-epi-name">Epipen</div><div class="bc-sub">best friend</div></div>
+          <div class="bot-card" id="bc-chinatsu" onclick="selectBot('chinatsu')"><div class="bc-av">🌿</div><div class="bc-name">Chinatsu</div><div class="bc-sub">cycle mentor</div></div>
+          <div class="bot-card" id="bc-jazz" onclick="selectBot('jazz')"><div class="bc-av jazz-av">🎸</div><div class="bc-name jazz-nm">Jazz</div><div class="bc-sub">mystery friend</div></div>
+        </div>
+
+        <!-- EPIPEN -->
+        <div id="panel-epipen" class="bot-panel active">
+          <div class="mode-row">
+            <button class="mode-btn active" data-mode="vent" onclick="setMode(this,'vent')">🌿 Vent</button>
+            <button class="mode-btn mode-fire" data-mode="argue-nsfw" onclick="setMode(this,'argue-nsfw')">👊 Argue</button>
+            <button class="mode-btn" data-mode="anger" onclick="setMode(this,'anger')">💥 Release</button>
+          </div>
+          <div class="sess-bar">
+            <button class="sess-new" onclick="newSession('epipen')">+ New Chat</button>
+            <button class="sess-hist-btn" onclick="toggleHist('epipen')">📖 History</button>
+            <button class="rename-btn" onclick="renameEpi()">✏️</button>
+          </div>
+          <div class="search-bar"><input class="search-in" placeholder="search chats..." oninput="searchChat('epipen',this.value)"/></div>
+          <div id="search-epipen" class="sess-history" style="display:none"></div>
+          <div id="hist-epipen" class="sess-history" style="display:none"></div>
+          <div id="msgs-epipen" class="chat-msgs"><div class="msg epi-msg">hey. what's going on? 🌸</div></div>
+          <div class="chat-bar">
+            <textarea id="in-epipen" class="chat-in" placeholder="say anything..." rows="2"></textarea>
+            <button class="chat-send" onclick="sendBot('epipen')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+          </div>
+        </div>
+
+        <!-- CHINATSU -->
+        <div id="panel-chinatsu" class="bot-panel">
+          <div class="chi-bot-hdr"><div class="chi-av-sm">🌿</div><div><p class="chi-bot-name">Chinatsu</p><p class="chi-bot-sub">ask anything about your body, cycle, health</p></div></div>
+          <div class="sess-bar">
+            <button class="sess-new" onclick="newSession('chinatsu')">+ New Chat</button>
+            <button class="sess-hist-btn" onclick="toggleHist('chinatsu')">📖 History</button>
+          </div>
+          <div id="hist-chinatsu" class="sess-history" style="display:none"></div>
+          <div id="msgs-chinatsu" class="chat-msgs"><div class="msg epi-msg chi-msg">Hi! I'm Chinatsu 🌿 Ask me anything about your cycle, body, or health.</div></div>
+          <div class="chat-bar">
+            <textarea id="in-chinatsu" class="chat-in" placeholder="ask Chinatsu anything..." rows="2"></textarea>
+            <button class="chat-send chi-send" onclick="sendBot('chinatsu')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+          </div>
+        </div>
+
+        <!-- JAZZ (locked) -->
+        <div id="panel-jazz" class="bot-panel">
+          <div id="jazz-lock" class="jazz-lock">
+            <div class="jl-inner">
+              <div style="position:relative;width:52px;height:52px;margin:0 auto 1rem">
+                <div class="jazz-av" style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(45,27,105,.6),rgba(139,92,246,.3));border:2px solid #8b5cf6;display:flex;align-items:center;justify-content:center;font-size:1.6rem">🎸</div>
+                <div class="jazz-halo"></div>
+              </div>
+              <h3 class="jl-title">Jazz is waiting</h3>
+              <p class="jl-hint">enter the password to unlock 🔐</p>
+              <p class="jl-clue">hint: kaoo kaoo 🐦</p>
+              <input id="jazz-pw" class="b-input" type="password" placeholder="password..." autocomplete="off" onkeydown="if(event.key==='Enter')tryJazzPw()"/>
+              <button class="b-btn" onclick="tryJazzPw()">unlock 🎸</button>
+              <p id="jazz-err" class="jl-err" style="display:none">wrong password 😭 try again</p>
+            </div>
+          </div>
+          <div id="jazz-chat" style="display:none">
+            <div class="jazz-hdr">
+              <div style="position:relative;flex-shrink:0"><div class="jazz-av" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,rgba(45,27,105,.6),rgba(139,92,246,.3));border:2px solid #8b5cf6;display:flex;align-items:center;justify-content:center;font-size:1.4rem">🎸</div><div class="jazz-halo"></div></div>
+              <div class="jazz-info"><p class="jazz-name">Jazz</p><p class="jazz-sub">that one friend who just gets it 👀</p></div>
+              <button class="rename-btn" onclick="lockJazz()" title="lock">🔒</button>
+            </div>
+            <div class="sess-bar">
+              <button class="sess-new jazz-sess-new" onclick="newSession('jazz')">+ New Chat</button>
+              <button class="sess-hist-btn" onclick="toggleHist('jazz')">📖 History</button>
+            </div>
+            <div id="hist-jazz" class="sess-history" style="display:none"></div>
+            <div id="msgs-jazz" class="chat-msgs"><div class="msg jazz-msg">ayo 👀 kya scene hai</div></div>
+            <div class="chat-bar">
+              <textarea id="in-jazz" class="chat-in" placeholder="talk to Jazz..." rows="2"></textarea>
+              <button class="chat-send jazz-send" onclick="sendBot('jazz')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIARY -->
+      <div id="pg-diary" class="pg">
+        <div class="pg-hd"><h2 class="pg-title">your space 🌙</h2><p class="pg-sub">private forever</p></div>
+        <div class="phase-card">
+          <div><div class="pc-day" id="pc-day">Day —</div><div class="pc-phase" id="pc-phase">loading...</div></div>
+          <div class="pc-emoji" id="pc-emoji">🌸</div>
+        </div>
+        <div class="phase-msg"><p id="phase-msg-txt">generating your message...</p><button class="ref-btn" onclick="loadPhaseMsg()">↻</button></div>
+        <div class="sum-tabs">
+          <button class="sum-tab active" onclick="loadSum(this,'today')">Today</button>
+          <button class="sum-tab" onclick="loadSum(this,'week')">Week</button>
+          <button class="sum-tab" onclick="loadSum(this,'month')">Month</button>
+        </div>
+        <div id="sum-box" class="sum-box">tap a tab for your summary 🌸</div>
+        <div class="cal-wrap">
+          <div class="cal-hd"><button class="cal-nav" onclick="changeMonth(-1)">‹</button><span class="cal-ttl" id="cal-ttl"></span><button class="cal-nav" onclick="changeMonth(1)">›</button></div>
+          <div class="cal-dow"><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span></div>
+          <div class="cal-grid" id="cal-grid"></div>
+          <div class="cal-legend"><span class="leg p-leg"></span><span>period</span><span class="leg d-leg"></span><span>diary</span><span class="leg td-leg"></span><span>today</span></div>
+          <div class="cal-actions">
+            <button class="ca-btn" onclick="setRange('start')">🔴 Start</button>
+            <button class="ca-btn" onclick="setRange('end')">🟢 End</button>
+            <button class="ca-btn" onclick="clearRange()">✕ Clear</button>
+          </div>
+          <p class="cal-hint" id="cal-hint">tap a date to open your diary 🌸</p>
+        </div>
+        <p class="sec-lbl">how's your body today?</p>
+        <div class="sym-wrap">
+          <button class="sym" onclick="toggleSym(this)">cramps from hell 🔥</button>
+          <button class="sym" onclick="toggleSym(this)">bloated queen 👑</button>
+          <button class="sym" onclick="toggleSym(this)">emotional wreck 🌊</button>
+          <button class="sym" onclick="toggleSym(this)">headache szn 💀</button>
+          <button class="sym" onclick="toggleSym(this)">tired but thriving 😮‍💨</button>
+          <button class="sym" onclick="toggleSym(this)">mood swings 🔄</button>
+          <button class="sym" onclick="toggleSym(this)">actually fine ✨</button>
+          <button class="sym" onclick="toggleSym(this)">back pain 😭</button>
+          <button class="sym" onclick="toggleSym(this)">chaos appetite 🍫</button>
+          <button class="sym" onclick="toggleSym(this)">skin drama 💅</button>
+        </div>
+        <button class="b-btn sm-btn" onclick="saveSyms()">save today 🌸</button>
+      </div>
+
+      <!-- diary modal -->
+      <div id="diary-modal" class="d-overlay" style="display:none">
+        <div class="d-card">
+          <div class="d-hd"><h3 id="d-date" class="d-date"></h3><button onclick="closeDiary()" class="d-x">✕</button></div>
+          <textarea id="d-in" class="d-in" placeholder="write anything — your thoughts, feelings. yours forever. 🌸"></textarea>
+          <button class="b-btn" onclick="saveDiary()" style="margin-bottom:.75rem">save 🌸</button>
+          <div id="d-past" style="display:none;padding:.9rem 1rem;background:rgba(240,176,96,.06);border:1px solid rgba(240,176,96,.15);border-radius:13px;margin-top:.6rem"><p class="d-slbl">📖 your entry</p><p id="d-past-txt" class="d-txt"></p></div>
+          <div id="d-ai" style="display:none;padding:.9rem 1rem;background:rgba(155,111,212,.08);border:1px solid rgba(155,111,212,.18);border-radius:13px;margin-top:.6rem"><p class="d-slbl">💉 epipen responded</p><p id="d-ai-txt" class="d-txt"></p></div>
+        </div>
+      </div>
+
+      <!-- HEALTH -->
+      <div id="pg-health" class="pg">
+        <div class="pg-hd"><h2 class="pg-title">health space 🩸</h2><p class="pg-sub">your body, understood</p></div>
+        <div id="pms-banner" class="pms-banner" style="display:none"><span id="pms-txt"></span></div>
+        <div class="chinatsu-card">
+          <div class="chi-av-wrap"><div class="chi-av">🌿</div><div class="chi-halo"></div></div>
+          <div class="chi-info"><p class="chi-name">Chinatsu</p><p class="chi-sub">your cycle mentor</p></div>
+          <button class="chi-chat-btn" onclick="quickOpenBot('chinatsu')">chat 💬</button>
+        </div>
+        <div class="phase-overview-card">
+          <div class="pov-top">
+            <div><div class="pov-day" id="pov-day">Day —</div><div class="pov-phase" id="pov-phase">—</div><div class="pov-next" id="pov-next">calculating...</div></div>
+            <div class="pov-right"><div class="pov-emoji" id="pov-emoji">🌸</div><div class="pov-cycle-len" id="pov-cycle-len">— day cycle</div></div>
+          </div>
+          <div class="phase-bar-wrap"><div class="phase-bar" id="phase-bar" style="width:0%"></div></div>
+          <div class="phase-bar-labels"><span>Womenstrual</span><span>Follicular</span><span>Ovulation</span><span>Luteal</span></div>
+        </div>
+        <div class="flow-pain-row">
+          <div class="fp-card">
+            <p class="fp-lbl">💧 Flow</p>
+            <div class="flow-btns">
+              <button class="flow-btn" onclick="setFlow(this,'spotting')">spotting</button>
+              <button class="flow-btn" onclick="setFlow(this,'light')">light</button>
+              <button class="flow-btn" onclick="setFlow(this,'medium')">medium</button>
+              <button class="flow-btn" onclick="setFlow(this,'heavy')">heavy</button>
+            </div>
+          </div>
+          <div class="fp-card">
+            <p class="fp-lbl">😣 Pain <span id="pain-val">0</span>/10</p>
+            <input type="range" class="pain-slider" id="pain-slider" min="0" max="10" step="1" value="0" oninput="document.getElementById('pain-val').textContent=this.value"/>
+            <button class="flow-save-btn" onclick="saveFlowPain()">save 🌸</button>
+          </div>
+        </div>
+        <div class="glass-row">
+          <div class="ov-left"><p class="ov-label">🥚 Ovulation Window</p><p class="ov-val" id="ov-window">calculating...</p></div>
+          <div class="ov-right"><p class="ov-label">📅 Next Period</p><p class="ov-val" id="next-period">calculating...</p></div>
+        </div>
+        <div class="forecast-tabs">
+          <button class="fc-tab active" onclick="loadForecast(this,'mood')">😊 Mood</button>
+          <button class="fc-tab" onclick="loadForecast(this,'energy')">⚡ Energy</button>
+          <button class="fc-tab" onclick="loadForecast(this,'nutrition')">🥗 Eat</button>
+          <button class="fc-tab" onclick="loadForecast(this,'skin')">💅 Skin</button>
+          <button class="fc-tab" onclick="loadForecast(this,'exercise')">🏃 Move</button>
+        </div>
+        <div id="forecast-box" class="forecast-box">tap a tab for Chinatsu's tips 🌿</div>
+        <div class="cust-card">
+          <div class="cust-hd" onclick="toggleCust()"><p class="cust-title">⚙️ Customise Your Cycle</p><span id="cust-arrow">›</span></div>
+          <div id="cust-body" style="display:none;padding:0 1.1rem 1.1rem">
+            <label class="field-lbl">Cycle Length (days)</label><input id="cust-len" class="b-input" type="number" min="13" max="50" placeholder="28"/>
+            <label class="field-lbl">Womenstrual phase (days)</label><input id="cust-mens" class="b-input" type="number" min="1" max="10" placeholder="5"/>
+            <label class="field-lbl">Follicular phase (days)</label><input id="cust-foll" class="b-input" type="number" min="1" max="20" placeholder="8"/>
+            <label class="field-lbl">Ovulation window (days)</label><input id="cust-ov" class="b-input" type="number" min="1" max="6" placeholder="3"/>
+            <p style="font-size:.72rem;color:var(--text3);margin-bottom:.75rem">Luteal fills the rest 🌙</p>
+            <button class="b-btn" onclick="saveCycleCustom()">Save 🌸</button>
+            <p id="cust-msg" style="font-size:.75rem;color:#a8e6b0;margin-top:.6rem"></p>
+          </div>
+        </div>
+        <p class="sec-lbl">symptom history</p>
+        <div id="sym-history"><p class="empty">log symptoms to see patterns 🌸</p></div>
+        <div class="chi-tip-card"><div class="chi-tip-hd"><span>🌿 Chinatsu's tip</span><button class="ref-btn" onclick="loadChiTip()">↻</button></div><p id="chi-tip-txt" class="chi-tip-txt">loading...</p></div>
+        <p class="sec-lbl">🌙 sleep tracker</p>
+        <div class="sleep-card">
+          <div class="sleep-row">
+            <div><label class="field-lbl">hours slept</label><input id="sleep-hrs" class="sleep-inp" type="number" min="0" max="24" step="0.5" placeholder="7.5"/></div>
+            <div><label class="field-lbl">quality</label>
+              <div class="sleep-quality">
+                <button class="sq-btn" onclick="setSleepQ(this,'terrible')">😭</button>
+                <button class="sq-btn" onclick="setSleepQ(this,'poor')">😔</button>
+                <button class="sq-btn" onclick="setSleepQ(this,'okay')">😐</button>
+                <button class="sq-btn" onclick="setSleepQ(this,'good')">😊</button>
+                <button class="sq-btn" onclick="setSleepQ(this,'great')">✨</button>
+              </div>
+            </div>
+          </div>
+          <button class="flow-save-btn" onclick="saveSleep()">save sleep 🌙</button>
+          <div id="sleep-chi"></div>
+        </div>
+        <p class="sec-lbl">🧠 body check</p>
+        <div class="body-check-grid">
+          <div class="bc-tile" onclick="openBodyCheck('migraine')"><div class="bc-ico">🤯</div><div class="bc-nm">Migraine</div><div class="bc-sub">tips + relief</div></div>
+          <div class="bc-tile" onclick="openBodyCheck('headache')"><div class="bc-ico">😣</div><div class="bc-nm">Headache</div><div class="bc-sub">causes + care</div></div>
+          <div class="bc-tile" onclick="openBodyCheck('eyes')"><div class="bc-ico">👁️</div><div class="bc-nm">Eye Pain</div><div class="bc-sub">screen fatigue</div></div>
+          <div class="bc-tile" onclick="openBodyCheck('cramps')"><div class="bc-ico">🔥</div><div class="bc-nm">Cramps</div><div class="bc-sub">cycle relief</div></div>
+          <div class="bc-tile" onclick="openBodyCheck('fatigue')"><div class="bc-ico">😴</div><div class="bc-nm">Fatigue</div><div class="bc-sub">energy restore</div></div>
+          <div class="bc-tile" onclick="openBodyCheck('nausea')"><div class="bc-ico">🌊</div><div class="bc-nm">Nausea</div><div class="bc-sub">settle it down</div></div>
+        </div>
+        <div id="body-check-out" style="display:none;padding:1.1rem 1.25rem;background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r);backdrop-filter:blur(20px);margin-top:.5rem;animation:fadeUp .3s ease both">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;font-size:.7rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--ame2);font-weight:700"><span id="bco-title"></span><button onclick="this.parentElement.parentElement.style.display='none'" class="d-x">✕</button></div>
+          <p id="bco-txt" style="font-size:.88rem;color:var(--text2);line-height:1.72"></p>
+        </div>
+        <p style="text-align:center;font-size:.62rem;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-top:1.5rem;opacity:.5">Bloom by Unravel Labs</p>
+      </div>
+
+      <!-- COMFORT -->
+      <div id="pg-comfort" class="pg">
+        <div class="pg-hd"><h2 class="pg-title">comfort corner 🌸</h2><p class="pg-sub">land here softly whenever</p></div>
+        <div class="gem-grid">
+          <div class="gem gm-pink" onclick="openComfort('meme')"><div class="gm-ico">😭</div><div class="gm-nm">Meme Therapy</div><div class="gm-sub">mood-based chaos</div></div>
+          <div class="gem gm-gold" onclick="openComfort('glow')"><div class="gm-ico">💅</div><div class="gm-nm">Baddie Glow Up</div><div class="gm-sub">your skin your rules</div></div>
+          <div class="gem gm-teal" onclick="document.getElementById('dream-modal').style.display='flex'"><div class="gm-ico">🌠</div><div class="gm-nm">Dream Fuel</div><div class="gm-sub">slay queen energy</div></div>
+          <div class="gem gm-rose" onclick="openComfort('surprise')"><div class="gm-ico">🎸</div><div class="gm-nm">Jazz Drop</div><div class="gm-sub">he has something 👀</div></div>
+          <div class="gem gm-vision" onclick="document.getElementById('vision-modal').style.display='flex'"><div class="gm-ico">🎯</div><div class="gm-nm">Vision Board</div><div class="gm-sub">your dreams, pinned</div></div>
+        </div>
+        <p class="sec-lbl">🫙 gratitude jar</p>
+        <div class="gratitude-card">
+          <div class="gr-row"><input id="gr-in" class="mc-in" placeholder="something you're grateful for..." type="text"/><button class="mc-send" onclick="addGratitude()">+</button></div>
+          <div id="gr-list" class="gr-list"></div>
+          <button class="gr-read-btn" onclick="readGratitude()">read them back to me 🌸</button>
+          <div id="gr-resp" style="display:none;margin-top:.75rem;padding:.9rem 1rem;background:rgba(240,176,96,.06);border:1px solid rgba(240,176,96,.15);border-radius:11px;font-size:.87rem;color:var(--text2);line-height:1.7"><p id="gr-resp-txt"></p></div>
+        </div>
+        <p class="sec-lbl">💌 letter to future self</p>
+        <div class="future-card">
+          <p class="future-hint">write to the version of you 6 months from now. Epipen will respond as her.</p>
+          <textarea id="future-in" class="d-in" placeholder="dear future me..."></textarea>
+          <button class="b-btn" onclick="sendFutureLetter()">send it 💌</button>
+          <div id="future-out" style="display:none;margin-top:.75rem"><p class="d-slbl">💌 future you says</p><p id="future-txt" class="d-txt"></p></div>
+        </div>
+        <p class="sec-lbl">🔥 anonymous vent</p>
+        <div class="burn-card">
+          <p class="future-hint">write anything. burns forever. never saved. just you.</p>
+          <textarea id="burn-in" class="d-in" placeholder="say the thing you can't say anywhere else..."></textarea>
+          <button class="burn-btn" onclick="burnVent()">🔥 burn it</button>
+          <div id="burn-out" style="display:none;margin-top:.75rem;text-align:center"><p id="burn-msg" style="color:var(--text3);font-size:.88rem;line-height:1.6"></p></div>
+        </div>
+        <p class="sec-lbl">💛 memory jar</p>
+        <div class="memory-card">
+          <p style="font-size:.75rem;color:var(--text3);margin-bottom:.75rem">tap 💛 on any AI message to save it forever</p>
+          <div id="mem-list"></div>
+        </div>
+        <div id="comfort-out" style="display:none;padding:1.25rem;background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r);backdrop-filter:blur(20px) saturate(180%);margin-top:.85rem"><div id="comfort-txt"></div></div>
+        <div id="glow-setup" style="display:none;padding:1.25rem;background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r);backdrop-filter:blur(20px);margin-top:.85rem;animation:fadeUp .3s ease both">
+          <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.4rem">💅 Baddie Glow Up Centre</h3>
+          <p style="font-size:.8rem;color:var(--text3);margin-bottom:.9rem">describe your skin — be specific.</p>
+          <textarea id="skin-in" class="d-in" placeholder="oily, acne-prone, want glass skin..."></textarea>
+          <button class="b-btn" onclick="genGlow()">Build My Routine ✨</button>
+        </div>
+      </div>
+
+      <!-- INSIGHTS -->
+      <div id="pg-insights" class="pg">
+        <div class="pg-hd"><h2 class="pg-title">insights 📊</h2><p class="pg-sub">your patterns, understood</p></div>
+        <div class="ins-card">
+          <div class="ins-card-hd"><span class="ins-card-ttl">😊 mood graph</span><div class="ins-tabs"><button class="ins-tab active" onclick="loadMoodGraph(this,7)">7d</button><button class="ins-tab" onclick="loadMoodGraph(this,30)">30d</button></div></div>
+          <canvas id="mood-canvas" style="width:100%;height:120px;display:block"></canvas>
+          <div class="mood-graph-labels" id="mood-labels"></div>
+          <div id="mood-stats" style="display:flex;gap:1rem;margin-top:.75rem;flex-wrap:wrap"></div>
+        </div>
+        <div class="ins-card"><p class="ins-card-ttl">🩺 top symptoms</p><div id="sym-chart"><p class="empty">log symptoms to see patterns 🌸</p></div></div>
+        <div class="ins-card"><p class="ins-card-ttl">🩸 cycle stats</p>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem">
+            <div class="cs-item"><div class="cs-val" id="cs-len">—</div><div class="cs-lbl">avg cycle</div></div>
+            <div class="cs-item"><div class="cs-val" id="cs-day">—</div><div class="cs-lbl">current day</div></div>
+            <div class="cs-item"><div class="cs-val" id="cs-streak">—</div><div class="cs-lbl">streak 🔥</div></div>
+            <div class="cs-item"><div class="cs-val" id="cs-logs">—</div><div class="cs-lbl">mood logs</div></div>
+          </div>
+        </div>
+        <div class="ins-card chi-report-card"><div class="ins-card-hd"><span class="ins-card-ttl">🌿 Chinatsu's report</span><button class="ref-btn" onclick="loadChiReport()">↻</button></div><p id="chi-report-txt" style="font-size:.88rem;color:var(--text2);line-height:1.72">tap ↻ to generate your monthly health summary</p></div>
+        <div class="ins-card" style="background:linear-gradient(135deg,rgba(155,111,212,.1),rgba(232,160,200,.08)) !important"><div class="ins-card-hd"><span class="ins-card-ttl">🔥 your hype reel</span><button class="ref-btn" onclick="loadHypeReel()">↻</button></div><p id="hype-txt" style="font-size:.9rem;color:var(--text2);line-height:1.72">tap ↻ and Epipen will tell you everything you've survived 💪</p></div>
+      </div>
+
+      <!-- PROFILE -->
+      <div id="pg-profile" class="pg">
+        <div class="prof-hdr">
+          <div id="prof-av" class="prof-av"></div>
+          <div style="flex:1"><h2 id="prof-nm" class="prof-nm">—</h2><p id="prof-email" class="prof-email">—</p></div>
+          <div class="jayesh-egg">made by jayesh · for the special one</div>
+        </div>
+        <div class="prof-sections">
+          <div class="prof-sec">
+            <p class="prof-sec-ttl">✏️ your details</p>
+            <label class="field-lbl">Display Name</label><input id="edit-nm" class="b-input" type="text"/>
+            <label class="field-lbl">Cycle Start Date</label><input id="edit-cycle" class="b-input" type="date"/>
+            <label class="field-lbl">Cycle Length (days)</label><input id="edit-len" class="b-input" type="number" min="13" max="50" placeholder="28"/>
+            <button class="b-btn" onclick="saveProf()">Save 🌸</button>
+          </div>
+          <div class="prof-sec">
+            <p class="prof-sec-ttl">💉 Epipen emoji</p>
+            <div class="emoji-picker">
+              <button class="ep-opt active" onclick="setEpiEmoji(this,'💉')">💉</button>
+              <button class="ep-opt" onclick="setEpiEmoji(this,'🌸')">🌸</button>
+              <button class="ep-opt" onclick="setEpiEmoji(this,'⚡')">⚡</button>
+              <button class="ep-opt" onclick="setEpiEmoji(this,'🔥')">🔥</button>
+              <button class="ep-opt" onclick="setEpiEmoji(this,'🤍')">🤍</button>
+              <button class="ep-opt" onclick="setEpiEmoji(this,'✨')">✨</button>
+              <button class="ep-opt" onclick="setEpiEmoji(this,'🎸')">🎸</button>
+              <button class="ep-opt" onclick="setEpiEmoji(this,'👑')">👑</button>
+            </div>
+          </div>
+          <div class="prof-sec">
+            <p class="prof-sec-ttl">🎨 theme</p>
+            <div class="theme-grid">
+              <div class="th active" data-theme="lavender" onclick="setTheme(this,'lavender')" style="background:linear-gradient(135deg,#9b6fd4,#e8a0c8)"><span>💜 Lavender</span></div>
+              <div class="th" data-theme="rose-gold" onclick="setTheme(this,'rose-gold')" style="background:linear-gradient(135deg,#c0392b,#f39c12)"><span>🌹 Rose Gold</span></div>
+              <div class="th" data-theme="pink" onclick="setTheme(this,'pink')" style="background:linear-gradient(135deg,#e8649a,#c89ee0)"><span>🌸 Pink</span></div>
+              <div class="th" data-theme="midnight" onclick="setTheme(this,'midnight')" style="background:linear-gradient(135deg,#1a1a2e,#818cf8)"><span>🌌 Midnight</span></div>
+              <div class="th" data-theme="forest" onclick="setTheme(this,'forest')" style="background:linear-gradient(135deg,#134e5e,#71b280)"><span>🌿 Forest</span></div>
+              <div class="th" data-theme="cherry" onclick="setTheme(this,'cherry')" style="background:linear-gradient(135deg,#eb3349,#f45c43)"><span>🍒 Cherry</span></div>
+              <div class="th" data-theme="kawaii" onclick="setTheme(this,'kawaii')" style="background:linear-gradient(135deg,#ff6eb4,#b3e5ff)"><span>🐰 Kawaii</span></div>
+            </div>
+            <div id="kawaii-picker" style="display:none;margin-top:.75rem">
+              <p class="prof-sec-ttl">🐰 kawaii palette</p>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <div class="kw-opt active" data-kw="bunny" onclick="setKawaii(this,'bunny')">🐰 Bunny</div>
+                <div class="kw-opt" data-kw="panda" onclick="setKawaii(this,'panda')">🐼 Panda</div>
+                <div class="kw-opt" data-kw="icecream" onclick="setKawaii(this,'icecream')">🍦 Ice Cream</div>
+              </div>
+            </div>
+          </div>
+          <div class="prof-sec">
+            <p class="prof-sec-ttl">⚙️ settings</p>
+            <div class="setting-row"><span class="s-lbl">Daily mood check-in</span><label class="toggle"><input type="checkbox" id="tog-checkin" checked onchange="saveSetting('checkin',this.checked)"/><span class="tog-track"></span></label></div>
+            <div class="setting-row"><span class="s-lbl">Random compliments</span><label class="toggle"><input type="checkbox" id="tog-compliments" checked onchange="saveSetting('compliments',this.checked)"/><span class="tog-track"></span></label></div>
+            <div class="setting-row"><span class="s-lbl">🌙 Dark mode</span><label class="toggle"><input type="checkbox" id="tog-dark" checked onchange="toggleDarkMode(this.checked)"/><span class="tog-track"></span></label></div>
+            <div class="setting-row"><span class="s-lbl">🔔 Notifications</span><label class="toggle"><input type="checkbox" id="tog-notifs" onchange="toggleNotifs(this.checked)"/><span class="tog-track"></span></label></div>
+          </div>
+          <button id="install-btn" class="install-btn" style="display:none" onclick="installPWA()">📱 Add to Home Screen</button>
+          <button class="signout-btn" onclick="doSignOut()">Sign Out</button>
+          <button class="delete-btn" onclick="deleteAccount()">🗑️ Delete Account & All Data</button>
+        </div>
+      </div>
+
+    </div><!-- /pages -->
+  </div><!-- /shell -->
+</div><!-- /s-app -->
+
+<!-- MODALS -->
+<div id="tell-modal" class="d-overlay" style="display:none">
+  <div class="d-card">
+    <div class="d-hd"><h3 class="d-date">✨ about you</h3><button onclick="this.closest('.d-overlay').style.display='none'" class="d-x">✕</button></div>
+    <p style="font-size:.82rem;color:var(--text3);margin-bottom:.9rem">share what you want all AIs to always remember about you.</p>
+    <textarea id="tell-in" class="d-in" placeholder="e.g. I love music and burritos, I'm studying for NEET, my fav anime is Blue Box, I love skincare, shorter cycle..."></textarea>
+    <button class="b-btn" onclick="saveTellAbout()">save for all AIs 🌸</button>
+    <div id="tell-saved" style="display:none;margin-top:.75rem;padding:.75rem 1rem;background:rgba(155,111,212,.1);border:1px solid rgba(155,111,212,.2);border-radius:11px;font-size:.84rem;color:var(--text2)"></div>
+  </div>
+</div>
+
+<div id="vision-modal" class="d-overlay" style="display:none">
+  <div class="d-card" style="max-height:90vh;overflow-y:auto">
+    <div class="d-hd"><h3 class="d-date">🎯 vision board</h3><button onclick="this.closest('.d-overlay').style.display='none'" class="d-x">✕</button></div>
+    <div id="vb-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem;max-height:55vh;overflow-y:auto"></div>
+    <div style="display:flex;gap:7px;align-items:center">
+      <input id="vb-in" class="mc-in" placeholder="add a dream or goal..." type="text"/>
+      <select id="vb-emoji" style="padding:9px;background:var(--glass);border:1px solid var(--border2);border-radius:11px;color:var(--text);font-size:1rem;outline:none;cursor:pointer"><option>🌟</option><option>💪</option><option>🎓</option><option>✈️</option><option>💰</option><option>🎵</option><option>💅</option><option>🌸</option><option>🔥</option><option>🏆</option></select>
+      <button class="mc-send" onclick="addVisionTile()">+</button>
+    </div>
+  </div>
+</div>
+
+<div id="dream-modal" class="d-overlay" style="display:none">
+  <div class="d-card">
+    <div class="d-hd"><h3 class="d-date">🌠 Dream Fuel</h3><button onclick="this.closest('.d-overlay').style.display='none'" class="d-x">✕</button></div>
+    <p style="font-size:.82rem;color:var(--text3);margin-bottom:.9rem">what kind of woman do you aspire to be?</p>
+    <textarea id="dream-in" class="d-in" placeholder="baddie with abs, travelling the world, financially independent..."></textarea>
+    <button class="b-btn" onclick="genDream()">Fuel Me 🔥</button>
+    <div id="dream-out" style="display:none;margin-top:.75rem"><p class="d-slbl">🌠 your fuel</p><p id="dream-txt" class="d-txt"></p></div>
+  </div>
+</div>
+
+<div id="chi-advice-pop" class="chi-advice-pop" style="display:none">
+  <button class="mpop-x" onclick="this.parentElement.style.display='none'">✕</button>
+  <div style="display:flex;align-items:flex-start;gap:.75rem"><span style="font-size:1.4rem;flex-shrink:0">🌿</span><div><p style="font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:#71b280;font-weight:700;margin-bottom:3px">Chinatsu says</p><p id="cap-txt" style="font-size:.88rem;color:var(--text2);line-height:1.6;font-weight:500;padding-right:1.5rem"></p></div></div>
+</div>
+
+<div id="pattern-pop" class="chi-advice-pop" style="display:none;background:rgba(155,111,212,.15) !important;border-color:rgba(155,111,212,.3) !important">
+  <button class="mpop-x" onclick="this.parentElement.style.display='none'">✕</button>
+  <div style="display:flex;align-items:flex-start;gap:.75rem"><span style="font-size:1.4rem;flex-shrink:0">📊</span><div><p style="font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ame2);font-weight:700;margin-bottom:3px">Chinatsu noticed</p><p id="pattern-txt" style="font-size:.88rem;color:var(--text2);line-height:1.6;padding-right:1.5rem"></p></div></div>
+</div>
+
+<div id="pg-pop" class="pg-pop" style="display:none"><span id="pg-pop-txt"></span></div>
+<script type="module" src="script.js"></script>
+</body>
+</html>
